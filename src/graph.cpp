@@ -11,7 +11,7 @@ Graph::~Graph() {
 
 void Graph::insertEdge(int u, int v, bool directed) {
     this->e[u].insert(v);
-    if (not directed)
+    if (!directed)
         this->e[v].insert(u);
 }
 
