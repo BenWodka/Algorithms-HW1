@@ -1,16 +1,44 @@
 #include <search.hpp>
-/*
-To iterate over the adjancy nodes of u, you can use the following template code 
-int numberOfAdjacencyNodes = G.e[u].size(); // Get number of adjancy nodes of u 
-LinkedListNode<int> *p = G.e[u].getRoot(); // Get the head point of the linked list
-for (int i = 0; i < numberOfAdjacencyNodes; i += 1, p = p->next) { // iterate over each node
-    int v = p->value; // v is the adjvancy node of u
-    // YOUR CODE HERE
-}
-*/
+using namespace std;
 
-void rdfs(Graph &G, int start, int destination, int numberOfBuilding, std::vector<int> &path) {
-    int N = G.n; // Number of nodes in the graph
-    // YOUR CODE HERE
+
+void dfsRecursive(Graph &G, int u, int destination, vector<bool> &visited, vector<int> &path, bool &found, int numberOfBuilding) {
+    if (found || path.size() > numberOfBuilding) {
+        return; 
+    }
+
+    visited[u] = true;
+    path.push_back(u);
+
+    if (u == destination) {
+        found = true;
+        return;
+    }
+
+    // Iterate over the adjacency nodes of u
+    int numberOfAdjacencyNodes = G.e[u].size();
+    LinkedListNode<int> *p = G.e[u].getRoot();
+    for (int i = 0; i < numberOfAdjacencyNodes; i++, p = p->next) {
+        int v = p->value;
+        if (!visited[v]) {
+            dfsRecursive(G, v, destination, visited, path, found, numberOfBuilding);
+        }
+        if (found) break;
+    }
+
+    if (!found) {
+        path.pop_back();
+    }
 }
 
+void dfs(Graph &G, int start, int destination, int numberOfBuilding, vector<int> &path) {
+    int N = G.n; 
+    vector<bool> visited(N, false);
+    bool found = false;
+
+    dfsRecursive(G, start, destination, visited, path, found, numberOfBuilding);
+
+    if (path.size() > numberOfBuilding) {
+        path.clear();
+    }
+}
