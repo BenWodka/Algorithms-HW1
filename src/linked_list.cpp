@@ -34,17 +34,11 @@ LinkedList<T>::~LinkedList() {
 template<class T>
 LinkedListNode<T>* LinkedList<T>::insert(T value) {
     
-    // LinkedListNode<T> insert = new LinkedListNode<T>(value);
-
-    // if(insert!= nullptr){
-    //     return insert;
-    // }
-    // else {
     LinkedListNode<T>* insert = new LinkedListNode<T>(value);
     insert->next = root;
     root = insert;
     return insert;
-    // }
+
 }
 
 template<class T>

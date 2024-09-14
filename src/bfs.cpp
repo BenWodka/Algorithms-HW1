@@ -16,11 +16,12 @@ vector<int> bfs_path(Graph &G, int start, int dest) {
             int numberOfAdjacencyNodes = G.e[u].size();
             LinkedListNode<int> *p = G.e[u].getRoot();
             for (int i = 0; i < numberOfAdjacencyNodes; i++, p = p->next) {
-                int v = p->value;  // v is  adjacency node of u
-                if (dist[v] == -1) {  // If not visited
-                    dist[v] = dist[u] + 1;  // Update distance
-                    parent[v] = u;  // Set parent
-                    q.push(v);  // Push to queue
+                // v is  adjacency node of u
+                int v = p->value;
+                if (dist[v] == -1) {
+                    dist[v] = dist[u] + 1;
+                    parent[v] = u;
+                    q.push(v);
                     if (v == dest) break;
                 }
             }
