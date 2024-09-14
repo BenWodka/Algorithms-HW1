@@ -1,9 +1,11 @@
 #include <search.hpp>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 
-void dfsRecursive(Graph &G, int u, int destination, vector<bool> &visited, vector<int> &path, bool &found, int numberOfBuilding) {
-    if (found || path.size() > numberOfBuilding) {
+void dfsRecursive(Graph &G, int u, int destination, vector<bool> &visited, vector<int> &path, bool &found, int numberOfBuilding, int depth) {
+    if (found || depth > numberOfBuilding) {
         return; 
     }
 
@@ -21,24 +23,25 @@ void dfsRecursive(Graph &G, int u, int destination, vector<bool> &visited, vecto
     for (int i = 0; i < numberOfAdjacencyNodes; i++, p = p->next) {
         int v = p->value;
         if (!visited[v]) {
-            dfsRecursive(G, v, destination, visited, path, found, numberOfBuilding);
+            dfsRecursive(G, v, destination, visited, path, found, numberOfBuilding, depth + 1);
         }
         if (found) break;
     }
 
     if (!found) {
         path.pop_back();
+        visited[u] = false;
     }
 }
 
-void dfs(Graph &G, int start, int destination, int numberOfBuilding, vector<int> &path) {
+void rdfs(Graph &G, int start, int destination, int numberOfBuilding, vector<int> &path) {
     int N = G.n; 
     vector<bool> visited(N, false);
     bool found = false;
 
-    dfsRecursive(G, start, destination, visited, path, found, numberOfBuilding);
+    dfsRecursive(G, start, destination, visited, path, found, numberOfBuilding, 1);
 
-    if (path.size() > numberOfBuilding) {
+    if (path.size() > numberOfBuilding || !found) {
         path.clear();
     }
 }

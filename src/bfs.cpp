@@ -1,13 +1,14 @@
 #include <search.hpp>
 using namespace std;
 
-vector<int> bfs_path(Graph &G, int src, int dest) {
+vector<int> bfs_path(Graph &G, int start, int dest) {
         int N = G.n;
         vector<int> dist(N, -1);
         vector<int> parent(N, -1);
         Queue<int> q;
-        q.push(src);
-        dist[src] = 0;
+        q.push(start);
+        dist[start] = 0;
+
 
         // BFS
         while (!q.empty()) {
@@ -27,7 +28,7 @@ vector<int> bfs_path(Graph &G, int src, int dest) {
 
         if (dist[dest] == -1) return {};
 
-        // Reconstruct path from `src` to `dest`
+        // Reconstruct path from `start` to `dest`
         vector<int> result;
         for (int v = dest; v != -1; v = parent[v]) {
             result.push_back(v);
@@ -38,6 +39,7 @@ vector<int> bfs_path(Graph &G, int src, int dest) {
 
 void bfs(Graph &G, int start, int destination, int passBy, std::vector<int> &path) {
     int N = G.n;  // Number of nodes in the graph
+    int numberOfBuilding = 27;
 
     // Step 1: Find the path from start to passBy
     vector<int> path1 = bfs_path(G, start, passBy);
@@ -50,5 +52,14 @@ void bfs(Graph &G, int start, int destination, int passBy, std::vector<int> &pat
     // final path
     path = path1;
     path.insert(path.end(), path2.begin() + 1, path2.end());
+
+    if (path.size() > numberOfBuilding) {
+        vector<int> directPath = bfs_path(G, start, destination);
+        if (!directPath.empty() && directPath.size() <= numberOfBuilding) {
+            path = directPath;
+        } else {
+            path.clear();
+        }
+    }
 }
 

@@ -17,7 +17,7 @@ void dfs(Graph &G, int start, int destination, int numberOfBuilding, std::vector
 
         int numberOfAdjacencyNodes = G.e[u].size();
         LinkedListNode<int> *p = G.e[u].getRoot(); // Get the head point of the linked list
-        for (int i = 0; i < numberOfAdjacencyNodes; i += 1, p = p->next) { // iterate over each node
+        for (int i = 0; i < numberOfAdjacencyNodes; i ++, p = p->next) { // iterate over each node
             int v = p->value; // v is the adjvancy node of u
             if (!visited[v]){
                 s.push(v);
@@ -28,14 +28,17 @@ void dfs(Graph &G, int start, int destination, int numberOfBuilding, std::vector
         }
         
     }
+
     vector<int> tempPath;
-    for (int v = destination; v!= 1; v= parent[v]){
+    for (int v = destination; v!= -1; v= parent[v]){
         tempPath.push_back(v);
     }
     reverse(tempPath.begin(), tempPath.end());
 
     if (tempPath.size() > numberOfBuilding) {
         path.clear(); 
-        return;
+    }
+    else{
+        path = tempPath;
     }
 }

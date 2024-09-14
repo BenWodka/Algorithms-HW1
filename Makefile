@@ -15,8 +15,8 @@ endif
 CFLAGS=-I${PROJECT_DIR}/include/ -std=c++11
 
 # Using OpenCV for Visualization
-OPENCV=1
-OPENCV4=1
+OPENCV=0
+OPENCV4=0
 ifeq ($(OS),Windows_NT)
 	ifeq ($(OPENCV), 1)
 		CFLAGS+= -DOPENCV=1 -I${OPENCV_DIR}/include -std=c++11
